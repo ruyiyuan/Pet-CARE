@@ -1,75 +1,60 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PetCare — Demo (Owner & Host separated)</title>
+<title>PetCare — Owner Portal (Demo)</title>
 <style>
-  :root{
-    --bg:#f5f8fb; --card:#ffffff; --muted:#6b7280; --accent:#06b6d4; --accent-dark:#0ea5a1;
-    --radius:12px; --shadow:0 8px 30px rgba(12,18,24,0.08);
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#f7fbfd,#eef6f9);color:#0f1724;padding:28px}
-  .wrap{max-width:1100px;margin:0 auto}
-  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));display:flex;align-items:center;justify-content:center;color:#022;font-weight:700;box-shadow:0 6px 18px rgba(14,165,161,0.12)}
-  h1{font-size:20px;margin:0}
-  .sub{color:var(--muted);font-size:13px}
+:root{--bg:#f6fbfc;--card:#fff;--muted:#6b7280;--accent:#06b6d4;--radius:12px}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#f8fcfd,#eef8fa);color:#072127;padding:28px}
+.wrap{max-width:1000px;margin:0 auto}
+.header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#0aa) ;display:flex;align-items:center;justify-content:center;color:#022;font-weight:700}
+h1{margin:0;font-size:20px}
+.sub{color:var(--muted);font-size:13px;margin-top:4px}
 
-  .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
-  @media (max-width:920px){.grid{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:18px}
+@media (max-width:920px){.grid{grid-template-columns:1fr}}
 
-  .card{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow)}
-  label{display:block;font-size:13px;color:var(--muted);margin-top:10px}
-  input[type=text],input[type=date],select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef6;margin-top:6px;background:transparent}
-  textarea{min-height:80px;resize:vertical}
-  .row{display:flex;gap:8px;align-items:center}
-  .btn{background:var(--accent);border:0;padding:10px 12px;border-radius:10px;color:#022;cursor:pointer;font-weight:600}
-  .btn.alt{background:#e6eef6}
-  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .pill{background:#f0fcfd;padding:6px 10px;border-radius:999px;font-size:13px;color:#024}
-  .small{font-size:13px;color:var(--muted)}
-  .list{margin-top:12px;max-height:520px;overflow:auto;padding-right:6px}
-  .item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;border:1px solid #eef6f8;margin-bottom:10px;background:#fff}
-  .meta{flex-basis:320px}
-  .media-thumb{height:58px;width:58px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8}
-  .host-card{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;border:1px solid #eef6f8;background:#fcffff}
-  .muted{color:var(--muted);font-size:13px}
-  .controls{display:flex;gap:8px;flex-wrap:wrap}
-  .linkbox{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef6;background:#fafcff}
-  footer{margin-top:12px;color:var(--muted);font-size:13px}
-
-  /* detail modal like panel */
-  .detail{background:linear-gradient(180deg,#ffffff,#fbfeff);padding:12px;border-radius:10px;border:1px solid #eef6f8}
-  .gallery{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .gallery img{height:90px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8;cursor:pointer}
-  .field-row{display:flex;gap:8px}
-  .field-row > div{flex:1}
-  .muted-note{font-size:12px;color:#9aa4b2;margin-top:6px}
+.card{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:0 8px 26px rgba(6,22,27,0.06)}
+label{display:block;color:var(--muted);font-size:13px;margin-top:10px}
+input[type=text],input[type=date],select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #e7f0f2;margin-top:6px;background:transparent}
+textarea{min-height:80px;resize:vertical}
+.btn{background:var(--accent);border:0;padding:10px 12px;border-radius:10px;color:#022;cursor:pointer;font-weight:600}
+.btn.alt{background:#eef9fa}
+.small{font-size:13px;color:var(--muted)}
+.list{margin-top:12px;max-height:520px;overflow:auto;padding-right:6px}
+.item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;border:1px solid #eef6f8;margin-bottom:10px;background:#fff}
+.p-thumb{height:58px;width:58px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8}
+.linkbox{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef6;background:#fafcff;margin-top:8px}
+.gallery img{height:90px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8;margin-right:8px;margin-bottom:8px}
+.footer{margin-top:12px;color:var(--muted);font-size:13px}
+.kv{font-size:13px;color:var(--muted);margin-top:6px}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#f0feff;color:#024;margin-top:8px}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
+    <div class="header">
       <div class="logo">PC</div>
       <div>
-        <h1>PetCare — Safety-first Pet Services (Demo)</h1>
-        <div class="sub">Day care • Walking • Boarding • In-home vet — Owner and Host are separate</div>
+        <h1>PetCare — Owner Portal（Demo）</h1>
+        <div class="sub">顾客专用：创建预约并接收服务期间的照片／视频链接（演示版，数据保存在本地）</div>
       </div>
-    </header>
+    </div>
 
     <div class="grid">
-      <!-- Left: main form & bookings -->
+      <!-- 左：表单与列表 -->
       <div>
         <div class="card">
-          <strong>Create Booking</strong>
-          <div class="small" style="margin-top:6px">Fill owner & pet info — host certification recommended.</div>
+          <strong>Create Booking (Owner)</strong>
+          <div class="small" style="margin-top:6px">填写宠物主人与宠物信息，并选择服务类型。</div>
 
           <label>Owner name</label>
           <input id="ownerName" type="text" placeholder="e.g. Li Hua">
 
-          <label>Owner contact (phone or email)</label>
+          <label>Contact (phone or email)</label>
           <input id="contact" type="text" placeholder="e.g. +86 13xxxx or li@example.com">
 
           <label>Pet name</label>
@@ -83,129 +68,96 @@
             <option>In-Home Vet</option>
           </select>
 
-          <div class="field-row">
-            <div>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1">
               <label>Start date</label>
               <input id="fromDate" type="date">
             </div>
-            <div>
+            <div style="flex:1">
               <label>End date</label>
               <input id="toDate" type="date">
             </div>
           </div>
 
-          <label>Extras</label>
-          <select id="extras">
-            <option value="">None</option>
-            <option>Walking</option>
-            <option>Bath</option>
-            <option>One-on-one care</option>
-          </select>
-
-          <label style="margin-top:10px">Host (service provider) info</label>
-          <div class="host-card">
-            <div style="flex:1">
-              <input id="hostName" type="text" placeholder="Host name (e.g. Anna)">
-              <div class="small muted-note">Experience years</div>
-              <input id="hostExp" type="text" placeholder="e.g. 4">
-            </div>
-            <div style="min-width:120px;text-align:center">
-              <div class="small">Certificate</div>
-              <img id="certPreview" class="media-thumb" src="" alt="" style="display:none;margin-top:6px"/>
-              <input id="certUpload" type="file" accept="image/*" style="margin-top:8px"/>
-            </div>
-          </div>
-
-          <label style="margin-top:8px">Notes (medical, meds, behaviour)</label>
+          <label style="margin-top:8px">Notes (medical, meds, behavior)</label>
           <textarea id="notes" placeholder="Allergies, medication, special care"></textarea>
 
           <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
             <button class="btn" id="saveBtn">Submit Booking</button>
             <button class="btn alt" id="clearForm">Clear</button>
-            <div style="margin-left:auto" class="small muted">Demo stores data locally in browser</div>
+            <div style="margin-left:auto" class="small">Demo uses localStorage</div>
           </div>
         </div>
 
         <div class="card" style="margin-top:14px">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <strong>Bookings</strong>
-            <div class="controls">
+            <strong>My Bookings</strong>
+            <div>
               <input id="filterDate" type="date" style="padding:8px;border-radius:8px;border:1px solid #eef6f8"/>
-              <button class="btn" id="exportCsv">Export CSV</button>
-              <button class="btn alt" id="clearAll">Clear All</button>
             </div>
           </div>
 
           <div class="list" id="bookingList" aria-live="polite"></div>
+
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn" id="exportCsv">Export CSV</button>
+            <button class="btn alt" id="clearAll">Clear All</button>
+          </div>
         </div>
       </div>
 
-      <!-- Right: details & share -->
-      <div class="card meta">
-        <strong>Booking Details & Share</strong>
-        <div id="detailArea" class="small muted" style="margin-top:8px">Select a booking from the left to view details, media, and create a share link.</div>
+      <!-- 右：详情与媒体（Owner 可粘贴 Host 提供的媒体链接） -->
+      <div class="card">
+        <strong>Booking Details & Media</strong>
+        <div id="detailArea" class="small" style="margin-top:8px">Select a booking from the left to view details and add media links provided by Host.</div>
 
-        <div id="detailBox" style="margin-top:12px;display:none" class="detail">
+        <div id="detailBox" style="margin-top:12px;display:none">
           <div id="detailContent"></div>
 
           <div style="margin-top:10px">
-            <strong>Upload photo(s) while service</strong>
-            <input id="uploadMedia" type="file" accept="image/*,video/*" multiple style="margin-top:8px"/>
+            <label>Paste media URL(s) from Host (one per line)</label>
+            <textarea id="mediaUrls" placeholder="https://.../photo1.jpg&#10;https://.../video1.mp4"></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="btn" id="attachMedia">Attach URLs</button>
+              <button class="btn alt" id="clearMedia">Clear media</button>
+            </div>
             <div class="gallery" id="mediaGallery"></div>
           </div>
 
-          <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+          <div style="margin-top:12px">
             <button class="btn" id="copyLink">Generate & Copy Share Link</button>
             <input id="shareLink" readonly class="linkbox" />
           </div>
         </div>
 
-        <div style="margin-top:14px" class="muted small">
-          This demo uses browser localStorage and base64 images for media (for assignment demonstration). For production, use Firebase / Cloudinary for storage and auth.
+        <div class="footer small" style="margin-top:14px">
+          Note: This demo stores data locally (localStorage). In production, hosts would upload media to cloud storage and the platform would store media URLs in a centralized DB.
         </div>
       </div>
     </div>
-
-    <footer>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-        <div class="small muted">Built for course demo • Single-file prototype</div>
-        <div class="small muted">Tip: export CSV to submit a backup of bookings</div>
-      </div>
-    </footer>
   </div>
 
 <script>
-/* ---------- storage helpers ---------- */
-const KEY = "petcare_demo_v3";
-function loadAll(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
-function saveAll(a){localStorage.setItem(KEY,JSON.stringify(a))}
+/* storage */
+const KEY = "petcare_owner_portal_v1";
+function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)||"[]") } catch(e){ return [] } }
+function saveAll(a){ localStorage.setItem(KEY, JSON.stringify(a)) }
 
-/* ---------- simple utils ---------- */
-function id(){return 'b-'+Date.now().toString(36)+'-'+Math.floor(Math.random()*9000+1000)}
-function esc(s){return (s||'').toString().replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+/* utils */
+function id(){ return 'b-'+Date.now().toString(36)+'-'+Math.floor(Math.random()*9000+1000) }
+function esc(s){ return (s||'').toString().replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
 
-/* ---------- elements ---------- */
+/* elements */
 const bookingList = document.getElementById('bookingList');
-const detailArea = document.getElementById('detailArea');
 const detailBox = document.getElementById('detailBox');
 const detailContent = document.getElementById('detailContent');
 const mediaGallery = document.getElementById('mediaGallery');
 const shareLink = document.getElementById('shareLink');
-const certUpload = document.getElementById('certUpload');
-const certPreview = document.getElementById('certPreview');
+const mediaUrls = document.getElementById('mediaUrls');
 
 let bookings = loadAll();
 
-/* ---------- cert preview ---------- */
-certUpload.addEventListener('change',()=>{
-  const f = certUpload.files[0];
-  if(!f) { certPreview.style.display='none'; certPreview.src=''; return }
-  const r = new FileReader();
-  r.onload = e=>{ certPreview.src = e.target.result; certPreview.style.display='block' }
-  r.readAsDataURL(f);
-})
-
-/* ---------- render list ---------- */
+/* render list */
 function renderList(){
   bookingList.innerHTML = '';
   const f = document.getElementById('filterDate').value;
@@ -214,20 +166,20 @@ function renderList(){
     return (it.fromDate<=f && f<=it.toDate) || it.fromDate===f || it.toDate===f;
   }).sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt));
 
-  if(shown.length===0){ bookingList.innerHTML = '<div class="small muted" style="padding:8px">No bookings yet</div>'; return }
+  if(shown.length===0){ bookingList.innerHTML = '<div class="small" style="padding:8px;color:var(--muted)">No bookings yet</div>'; return }
+
   shown.forEach(it=>{
     const el = document.createElement('div'); el.className='item';
     el.innerHTML = `
       <div>
-        <div style="font-weight:700">${esc(it.petName)} <span class="small muted">— ${esc(it.serviceType)}</span></div>
-        <div class="small muted" style="margin-top:6px">${it.fromDate} → ${it.toDate} • ${esc(it.extras||'')}</div>
-        <div class="small" style="margin-top:6px">Owner: ${esc(it.ownerName)} • ${esc(it.contact)}</div>
-        <div class="small" style="margin-top:6px">Host: ${esc(it.hostName||'—')} • ${esc(it.hostExp||'0')} yrs</div>
+        <div style="font-weight:700">${esc(it.petName)} <span class="small" style="color:var(--muted)">— ${esc(it.serviceType)}</span></div>
+        <div class="kv">${it.fromDate} → ${it.toDate} • ${esc(it.extras||'')}</div>
+        <div class="kv">Owner: ${esc(it.ownerName)} • ${esc(it.contact)}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
-        <img src="${it.certImage||''}" class="media-thumb" style="${it.certImage?'display:block':'display:none'}"/>
+        <div class="small" style="color:var(--muted)">${new Date(it.createdAt).toLocaleString()}</div>
         <div style="display:flex;gap:8px">
-          <button class="btn" data-id="${it.id}" onclick="viewBooking('${it.id}')">View</button>
+          <button class="btn" onclick="viewBooking('${it.id}')">View</button>
           <button class="btn alt" style="background:#fee2e2;color:#b91c1c" onclick="deleteBooking('${it.id}')">Delete</button>
         </div>
       </div>
@@ -236,8 +188,8 @@ function renderList(){
   });
 }
 
-/* ---------- add booking ---------- */
-document.getElementById('saveBtn').onclick = async ()=>{
+/* add booking */
+document.getElementById('saveBtn').onclick = ()=>{
   const ownerName = document.getElementById('ownerName').value.trim();
   const contact = document.getElementById('contact').value.trim();
   const petName = document.getElementById('petName').value.trim();
@@ -245,107 +197,100 @@ document.getElementById('saveBtn').onclick = async ()=>{
   const fromDate = document.getElementById('fromDate').value;
   const toDate = document.getElementById('toDate').value;
   const extras = document.getElementById('extras').value;
-  const hostName = document.getElementById('hostName').value.trim();
-  const hostExp = document.getElementById('hostExp').value.trim();
   const notes = document.getElementById('notes').value.trim();
 
-  if(!ownerName||!contact||!petName||!fromDate){ alert('Please fill required fields: owner, contact, pet, start date'); return }
-
-  // read cert as base64 (if present)
-  let certImage = '';
-  if(certUpload.files[0]){
-    certImage = await readFileAsDataURL(certUpload.files[0]);
-  }
+  if(!ownerName || !contact || !petName || !fromDate){ alert('Please fill required fields: owner, contact, pet, start date'); return }
 
   const booking = {
     id: id(),
-    ownerName,
-    contact,
-    petName,
-    serviceType,
-    fromDate,
-    toDate: toDate||fromDate,
-    extras,
-    hostName,
-    hostExp,
-    notes,
-    certImage,
-    media: [],
-    createdAt: new Date().toISOString()
+    ownerName, contact, petName, serviceType,
+    fromDate, toDate: toDate||fromDate, extras, notes,
+    media: [], createdAt: new Date().toISOString()
   };
   bookings.push(booking);
   saveAll(bookings);
   renderList();
   clearForm();
-  alert('Booking saved (stored locally).');
+  alert('Booking created. Share the generated link with your chosen host to receive media.');
 }
 
-/* ---------- helpers ---------- */
-function readFileAsDataURL(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(file) })}
-
+/* clear form */
+document.getElementById('clearForm').onclick = ()=> {
+  clearForm();
+}
 function clearForm(){
-  ['ownerName','contact','petName','fromDate','toDate','extras','hostName','hostExp','notes'].forEach(id=>document.getElementById(id).value='');
-  certUpload.value=''; certPreview.style.display='none'; certPreview.src='';
+  ['ownerName','contact','petName','fromDate','toDate','extras','notes'].forEach(id=>document.getElementById(id).value='');
 }
 
-/* ---------- view / detail / media ---------- */
+/* view booking */
 window.viewBooking = function(id){
   const b = bookings.find(x=>x.id===id);
   if(!b) return;
   detailBox.style.display='block';
   detailContent.innerHTML = `
-    <div style="font-weight:700">${esc(b.petName)} <span class="small muted">— ${esc(b.serviceType)}</span></div>
-    <div class="small" style="margin-top:6px">Owner: ${esc(b.ownerName)} • ${esc(b.contact)}</div>
-    <div class="small" style="margin-top:6px">${esc(b.fromDate)} → ${esc(b.toDate)}</div>
-    <div class="small" style="margin-top:6px">Host: ${esc(b.hostName||'—')} • ${esc(b.hostExp||'0')} yrs</div>
-    <div class="small muted" style="margin-top:6px">Notes: ${esc(b.notes||'—')}</div>
+    <div style="font-weight:700">${esc(b.petName)} <span class="small" style="color:var(--muted)">— ${esc(b.serviceType)}</span></div>
+    <div class="kv">Owner: ${esc(b.ownerName)} • ${esc(b.contact)}</div>
+    <div class="kv">${esc(b.fromDate)} → ${esc(b.toDate)}</div>
+    <div class="kv" style="margin-top:6px;color:var(--muted)">Notes: ${esc(b.notes||'—')}</div>
   `;
+  // render gallery
   renderGallery(b);
+  // prepare share link (owner can send to host so host can upload media in their system)
   const url = new URL(location.href);
   url.searchParams.set('viewBooking', b.id);
   shareLink.value = url.toString();
+  mediaUrls.value = (b.media||[]).map(m=>m.url).join('\\n');
 }
 
-/* ---------- upload media to booking ---------- */
-document.getElementById('uploadMedia').addEventListener('change', async (ev)=>{
-  const files = [...ev.target.files];
-  if(files.length===0) return;
-  // determine selected booking id from shareLink or from most recent
-  let targetId = new URLSearchParams(location.search).get('viewBooking') || (bookings.length?bookings[0].id:null);
-  if(shareLink.value){
-    try{
-      const u = new URL(shareLink.value);
-      const p = u.searchParams.get('viewBooking');
-      if(p) targetId = p;
-    }catch(e){}
-  }
-  if(!targetId){ alert('Select a booking to upload media'); return }
-  const b = bookings.find(x=>x.id===targetId);
-  if(!b){ alert('Booking not found'); return }
-  for(const f of files){
-    const d = await readFileAsDataURL(f);
-    b.media.push({id:id(),type:f.type,data:d,ts:new Date().toISOString()});
+/* attach media URLs (owner pastes URLs that host provided) */
+document.getElementById('attachMedia').onclick = ()=>{
+  const text = mediaUrls.value.trim();
+  const viewId = new URLSearchParams(location.search).get('viewBooking') || shareLink.value && (()=>{ try{ return new URL(shareLink.value).searchParams.get('viewBooking') }catch(e){return null} })();
+  if(!viewId){ alert('Select a booking first (click View).'); return }
+  const b = bookings.find(x=>x.id===viewId);
+  if(!b){ alert('Booking not found.'); return }
+  if(!text){ alert('Paste at least one media URL.'); return }
+  const urls = text.split(/\\r?\\n/).map(s=>s.trim()).filter(Boolean);
+  // add as media objects (url + timestamp)
+  for(const u of urls){
+    b.media.push({id:id(), url:u, ts:new Date().toISOString()});
   }
   saveAll(bookings);
   renderGallery(b);
   renderList();
-  ev.target.value='';
-});
+  alert('Media URLs attached.');
+}
 
-/* ---------- render gallery ---------- */
+/* clear media for selected booking */
+document.getElementById('clearMedia').onclick = ()=>{
+  const viewId = new URLSearchParams(location.search).get('viewBooking') || shareLink.value && (()=>{ try{ return new URL(shareLink.value).searchParams.get('viewBooking') }catch(e){return null} })();
+  if(!viewId){ alert('Select a booking first (click View).'); return }
+  const b = bookings.find(x=>x.id===viewId);
+  if(!b){ alert('Booking not found'); return }
+  if(!confirm('Clear all media for this booking?')) return;
+  b.media = [];
+  saveAll(bookings);
+  renderGallery(b);
+  renderList();
+}
+
+/* render gallery */
 function renderGallery(b){
   mediaGallery.innerHTML = '';
-  if(!b.media || b.media.length===0){ mediaGallery.innerHTML='<div class="small muted">No media uploaded yet</div>'; return }
+  if(!b.media || b.media.length===0){ mediaGallery.innerHTML = '<div class="small" style="color:var(--muted)">No media yet</div>'; return }
   b.media.slice().reverse().forEach(m=>{
-    const el = document.createElement('img'); el.src = m.data;
-    el.title = new Date(m.ts).toLocaleString();
-    el.onclick = ()=> window.open(m.data,'_blank');
-    mediaGallery.appendChild(el);
+    // if it's an image show img, else show link
+    const lower = m.url.toLowerCase();
+    if(lower.match(/\\.(jpg|jpeg|png|gif|webp)$/)){
+      const img = document.createElement('img'); img.src = m.url; img.alt='media'; img.onclick = ()=> window.open(m.url,'_blank'); mediaGallery.appendChild(img);
+    } else {
+      const a = document.createElement('a'); a.href = m.url; a.target='_blank'; a.textContent = m.url; a.className='small'; mediaGallery.appendChild(a);
+    }
   });
 }
 
-/* ---------- delete booking ---------- */
-function deleteBooking(id){
+/* delete booking */
+window.deleteBooking = function(id){
   if(!confirm('Delete booking?')) return;
   bookings = bookings.filter(x=>x.id!==id);
   saveAll(bookings);
@@ -353,28 +298,28 @@ function deleteBooking(id){
   detailBox.style.display='none';
 }
 
-/* ---------- CSV export ---------- */
+/* export CSV */
 document.getElementById('exportCsv').onclick = ()=>{
   if(bookings.length===0){ alert('No bookings'); return }
-  const header = ['id','ownerName','contact','petName','serviceType','fromDate','toDate','extras','hostName','hostExp','notes','createdAt'];
+  const header = ['id','ownerName','contact','petName','serviceType','fromDate','toDate','extras','notes','createdAt'];
   const rows = bookings.map(b=> header.map(h=> `"${(b[h]||'').toString().replace(/"/g,'""')}"`).join(','));
-  const csv = [header.join(',')].concat(rows).join('\n');
+  const csv = [header.join(',')].concat(rows).join('\\n');
   const blob = new Blob([csv],{type:'text/csv'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'petcare_bookings.csv'; a.click();
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'petcare_bookings_owner.csv'; a.click();
   URL.revokeObjectURL(a.href);
 }
 
-/* ---------- copy link ---------- */
+/* copy link */
 document.getElementById('copyLink').onclick = ()=>{
   const v = shareLink.value;
   if(!v){ alert('No booking selected'); return }
   navigator.clipboard?.writeText(v).then(()=>alert('Share link copied')).catch(()=>prompt('Copy manually:',v));
 }
 
-/* ---------- filter ---------- */
+/* filter */
 document.getElementById('filterDate').addEventListener('change', ()=> renderList());
 
-/* ---------- handle query param on load ---------- */
+/* handle query param */
 function handleQueryParam(){
   const params = new URLSearchParams(location.search);
   const viewId = params.get('viewBooking');
@@ -383,18 +328,16 @@ function handleQueryParam(){
     if(one){ viewBooking(viewId); document.querySelector('#detailBox')?.scrollIntoView({behavior:'smooth'}); }
     else {
       detailBox.style.display='block';
-      detailContent.innerHTML = `<div class="small muted">Booking ID ${viewId} not found locally on this device.</div>`;
+      detailContent.innerHTML = '<div class="small" style="color:var(--muted)">Booking ID not found locally on this device.</div>';
       shareLink.value = location.href;
     }
   }
 }
 
-/* ---------- init ---------- */
+/* init */
 renderList();
 handleQueryParam();
-
-// expose for debugging
-window._petcare = {bookings,saveAll,loadAll,renderList};
+window._petcare_owner = {bookings, saveAll, loadAll};
 </script>
 </body>
 </html>

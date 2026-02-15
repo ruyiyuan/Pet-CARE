@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -39,17 +39,17 @@ textarea{min-height:80px;resize:vertical}
     <div class="header">
       <div class="logo">PC</div>
       <div>
-        <h1>PetCare — Owner Portal（Demo）</h1>
-        <div class="sub">顾客专用：创建预约并接收服务期间的照片／视频链接（演示版，数据保存在本地）</div>
+        <h1>PetCare — Owner Portal (Demo)</h1>
+        <div class="sub">Owner-facing portal: create bookings and receive media links from hosts. Demo stores data locally.</div>
       </div>
     </div>
 
     <div class="grid">
-      <!-- 左：表单与列表 -->
+      <!-- Left: form & list -->
       <div>
         <div class="card">
           <strong>Create Booking (Owner)</strong>
-          <div class="small" style="margin-top:6px">填写宠物主人与宠物信息，并选择服务类型。</div>
+          <div class="small" style="margin-top:6px">Fill owner & pet info and choose a service type.</div>
 
           <label>Owner name</label>
           <input id="ownerName" type="text" placeholder="e.g. Li Hua">
@@ -106,16 +106,16 @@ textarea{min-height:80px;resize:vertical}
         </div>
       </div>
 
-      <!-- 右：详情与媒体（Owner 可粘贴 Host 提供的媒体链接） -->
+      <!-- Right: details & media (owner pastes host-provided media URLs) -->
       <div class="card">
         <strong>Booking Details & Media</strong>
-        <div id="detailArea" class="small" style="margin-top:8px">Select a booking from the left to view details and add media links provided by Host.</div>
+        <div id="detailArea" class="small" style="margin-top:8px">Select a booking from the left to view details and add media links provided by the host.</div>
 
         <div id="detailBox" style="margin-top:12px;display:none">
           <div id="detailContent"></div>
 
           <div style="margin-top:10px">
-            <label>Paste media URL(s) from Host (one per line)</label>
+            <label>Paste media URL(s) from host (one per line)</label>
             <textarea id="mediaUrls" placeholder="https://.../photo1.jpg&#10;https://.../video1.mp4"></textarea>
             <div style="display:flex;gap:8px;margin-top:8px">
               <button class="btn" id="attachMedia">Attach URLs</button>
@@ -131,7 +131,7 @@ textarea{min-height:80px;resize:vertical}
         </div>
 
         <div class="footer small" style="margin-top:14px">
-          Note: This demo stores data locally (localStorage). In production, hosts would upload media to cloud storage and the platform would store media URLs in a centralized DB.
+          Note: This demo stores data locally (localStorage). In production, hosts would upload media to cloud storage and the platform would centralize media URLs in a backend.
         </div>
       </div>
     </div>
@@ -239,7 +239,7 @@ window.viewBooking = function(id){
   const url = new URL(location.href);
   url.searchParams.set('viewBooking', b.id);
   shareLink.value = url.toString();
-  mediaUrls.value = (b.media||[]).map(m=>m.url).join('\\n');
+  mediaUrls.value = (b.media||[]).map(m=>m.url).join('\n');
 }
 
 /* attach media URLs (owner pastes URLs that host provided) */
@@ -250,7 +250,7 @@ document.getElementById('attachMedia').onclick = ()=>{
   const b = bookings.find(x=>x.id===viewId);
   if(!b){ alert('Booking not found.'); return }
   if(!text){ alert('Paste at least one media URL.'); return }
-  const urls = text.split(/\\r?\\n/).map(s=>s.trim()).filter(Boolean);
+  const urls = text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
   // add as media objects (url + timestamp)
   for(const u of urls){
     b.media.push({id:id(), url:u, ts:new Date().toISOString()});
@@ -281,7 +281,7 @@ function renderGallery(b){
   b.media.slice().reverse().forEach(m=>{
     // if it's an image show img, else show link
     const lower = m.url.toLowerCase();
-    if(lower.match(/\\.(jpg|jpeg|png|gif|webp)$/)){
+    if(lower.match(/\.(jpg|jpeg|png|gif|webp)$/)){
       const img = document.createElement('img'); img.src = m.url; img.alt='media'; img.onclick = ()=> window.open(m.url,'_blank'); mediaGallery.appendChild(img);
     } else {
       const a = document.createElement('a'); a.href = m.url; a.target='_blank'; a.textContent = m.url; a.className='small'; mediaGallery.appendChild(a);
@@ -303,7 +303,7 @@ document.getElementById('exportCsv').onclick = ()=>{
   if(bookings.length===0){ alert('No bookings'); return }
   const header = ['id','ownerName','contact','petName','serviceType','fromDate','toDate','extras','notes','createdAt'];
   const rows = bookings.map(b=> header.map(h=> `"${(b[h]||'').toString().replace(/"/g,'""')}"`).join(','));
-  const csv = [header.join(',')].concat(rows).join('\\n');
+  const csv = [header.join(',')].concat(rows).join('\n');
   const blob = new Blob([csv],{type:'text/csv'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'petcare_bookings_owner.csv'; a.click();
   URL.revokeObjectURL(a.href);
@@ -337,6 +337,11 @@ function handleQueryParam(){
 /* init */
 renderList();
 handleQueryParam();
+window._petcare_owner = {bookings, saveAll, loadAll};
+</script>
+</body>
+</html>
+
 window._petcare_owner = {bookings, saveAll, loadAll};
 </script>
 </body>

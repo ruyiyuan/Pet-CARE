@@ -1,140 +1,381 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>PetCare - Safety First Platform (Demo)</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PetCare — Demo</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  padding: 20px;
-}
+  :root{
+    --bg:#f5f8fb; --card:#ffffff; --muted:#6b7280; --accent:#06b6d4; --accent-dark:#0ea5a1;
+    --radius:12px; --shadow:0 8px 30px rgba(12,18,24,0.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#f7fbfd,#eef6f9);color:#0f1724;padding:28px}
+  .wrap{max-width:1100px;margin:0 auto}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));display:flex;align-items:center;justify-content:center;color:#022;font-weight:700;box-shadow:0 6px 18px rgba(14,165,161,0.12)}
+  h1{font-size:20px;margin:0}
+  .sub{color:var(--muted);font-size:13px}
 
-.container {
-  max-width: 900px;
-  margin: auto;
-}
+  .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+  @media (max-width:920px){.grid{grid-template-columns:1fr}}
 
-.card {
-  background: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
+  .card{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow)}
+  label{display:block;font-size:13px;color:var(--muted);margin-top:10px}
+  input[type=text],input[type=date],select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eef6;margin-top:6px;background:transparent}
+  textarea{min-height:80px;resize:vertical}
+  .row{display:flex;gap:8px;align-items:center}
+  .btn{background:var(--accent);border:0;padding:10px 12px;border-radius:10px;color:#022;cursor:pointer;font-weight:600}
+  .btn.alt{background:#e6eef6}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .pill{background:#f0fcfd;padding:6px 10px;border-radius:999px;font-size:13px;color:#024}
+  .small{font-size:13px;color:var(--muted)}
+  .list{margin-top:12px;max-height:520px;overflow:auto;padding-right:6px}
+  .item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;border:1px solid #eef6f8;margin-bottom:10px;background:#fff}
+  .meta{flex-basis:320px}
+  .media-thumb{height:58px;width:58px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8}
+  .host-card{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;border:1px solid #eef6f8;background:#fcffff}
+  .muted{color:var(--muted);font-size:13px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap}
+  .linkbox{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef6;background:#fafcff}
+  footer{margin-top:12px;color:var(--muted);font-size:13px}
 
-input, select, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-
-button {
-  padding: 10px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.booking {
-  border: 1px solid #eee;
-  padding: 10px;
-  margin-top: 10px;
-}
+  /* detail modal like panel */
+  .detail{background:linear-gradient(180deg,#ffffff,#fbfeff);padding:12px;border-radius:10px;border:1px solid #eef6f8}
+  .gallery{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .gallery img{height:90px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8}
 </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <header>
+      <div class="logo">PC</div>
+      <div>
+        <h1>PetCare — Safety-first Pet Services (Demo)</h1>
+        <div class="sub">day care • walking • boarding • in-home vet — hosts must confirm training & upload certificate</div>
+      </div>
+    </header>
 
-<div class="container">
+    <div class="grid">
+      <!-- Left: main form & bookings -->
+      <div>
+        <div class="card">
+          <strong>Create Booking</strong>
+          <div class="small" style="margin-top:6px">Fill owner & pet info — host certification required to proceed.</div>
 
-<h1>PetCare — Safety First Platform (Demo)</h1>
-<p>Book day care, dog walking, boarding, or in-home vet services.</p>
+          <label>Owner name</label>
+          <input id="ownerName" type="text" placeholder="e.g. Li Hua">
 
-<div class="card">
-<h3>Create Booking</h3>
+          <label>Contact (phone or email)</label>
+          <input id="contact" type="text" placeholder="e.g. +86 13xxxx or li@example.com">
 
-<input id="owner" placeholder="Owner Name">
-<input id="pet" placeholder="Pet Name">
+          <label>Pet name</label>
+          <input id="petName" type="text" placeholder="e.g. Bean">
 
-<select id="service">
-<option>Day Care</option>
-<option>Dog Walking</option>
-<option>Boarding</option>
-<option>In-Home Vet</option>
-</select>
+          <label>Service type</label>
+          <select id="serviceType">
+            <option>Day Care</option>
+            <option>Dog Walking</option>
+            <option>Boarding</option>
+            <option>In-Home Vet</option>
+          </select>
 
-<input type="date" id="start">
+          <div style="display:flex;gap:8px">
+            <div style="flex:1">
+              <label>Start date</label>
+              <input id="fromDate" type="date">
+            </div>
+            <div style="flex:1">
+              <label>End date</label>
+              <input id="toDate" type="date">
+            </div>
+          </div>
 
-<label>
-<input type="checkbox" id="cert">
- I confirm I completed Pet Health & Safety Training
-</label>
+          <label>Extras</label>
+          <select id="extras">
+            <option value="">None</option>
+            <option>Walking</option>
+            <option>Bath</option>
+            <option>One-on-one care</option>
+          </select>
 
-<textarea id="notes" placeholder="Notes"></textarea>
+          <label>Host: set or select host profile</label>
+          <div class="host-card">
+            <div style="flex:1">
+              <input id="hostName" type="text" placeholder="Host name (e.g. Anna)">
+              <div class="small" style="margin-top:6px">Experience years</div>
+              <input id="hostExp" type="text" placeholder="e.g. 4">
+            </div>
+            <div style="min-width:120px;text-align:center">
+              <div class="small">Certificate</div>
+              <img id="certPreview" class="media-thumb" src="" alt="" style="display:none"/>
+              <input id="certUpload" type="file" accept="image/*" style="margin-top:8px"/>
+            </div>
+          </div>
 
-<button onclick="addBooking()">Submit Booking</button>
-</div>
+          <label style="margin-top:8px">Notes (medical, meds, behaviour)</label>
+          <textarea id="notes" placeholder="Allergies, medication, special care"></textarea>
 
-<div class="card">
-<h3>Bookings</h3>
-<div id="list"></div>
-</div>
+          <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+            <button class="btn" id="saveBtn">Submit Booking</button>
+            <button class="btn alt" id="clearForm">Clear</button>
+            <div style="margin-left:auto" class="small muted">Demo stores data locally in browser</div>
+          </div>
+        </div>
 
-</div>
+        <div class="card" style="margin-top:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Bookings</strong>
+            <div class="controls">
+              <input id="filterDate" type="date" style="padding:8px;border-radius:8px;border:1px solid #eef6f8"/>
+              <button class="btn" id="exportCsv">Export CSV</button>
+              <button class="btn alt" id="clearAll">Clear All</button>
+            </div>
+          </div>
+
+          <div class="list" id="bookingList" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <!-- Right: details & share -->
+      <div class="card meta">
+        <strong>Booking Details & Share</strong>
+        <div id="detailArea" class="small muted" style="margin-top:8px">Select a booking from the left to view details, media, and create a share link.</div>
+
+        <div id="detailBox" style="margin-top:12px;display:none" class="detail">
+          <div id="detailContent"></div>
+
+          <div style="margin-top:10px">
+            <strong>Upload photo(s) while service</strong>
+            <input id="uploadMedia" type="file" accept="image/*,video/*" multiple style="margin-top:8px"/>
+            <div class="gallery" id="mediaGallery"></div>
+          </div>
+
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+            <button class="btn" id="copyLink">Generate & Copy Share Link</button>
+            <input id="shareLink" readonly class="linkbox" />
+          </div>
+        </div>
+
+        <div style="margin-top:14px" class="muted small">
+          This demo uses browser localStorage and base64 images for media (for assignment demonstration). For real deployment, use Firebase / Cloudinary for storage and authentication.
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div class="small muted">Built for course demo • Single-file prototype</div>
+        <div class="small muted">Tip: export CSV to submit a backup of bookings</div>
+      </div>
+    </footer>
+  </div>
 
 <script>
-let bookings = JSON.parse(localStorage.getItem("petcare") || "[]");
+/* ---------- storage helpers ---------- */
+const KEY = "petcare_demo_v2";
+function loadAll(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
+function saveAll(a){localStorage.setItem(KEY,JSON.stringify(a))}
 
-function save() {
-  localStorage.setItem("petcare", JSON.stringify(bookings));
-}
+/* ---------- simple utils ---------- */
+function id(){return 'b-'+Date.now().toString(36)+'-'+Math.floor(Math.random()*9000+1000)}
+function esc(s){return (s||'').toString().replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-function addBooking() {
-  let owner = document.getElementById("owner").value;
-  let pet = document.getElementById("pet").value;
-  let service = document.getElementById("service").value;
-  let start = document.getElementById("start").value;
-  let cert = document.getElementById("cert").checked;
-  let notes = document.getElementById("notes").value;
+/* ---------- elements ---------- */
+const bookingList = document.getElementById('bookingList');
+const detailArea = document.getElementById('detailArea');
+const detailBox = document.getElementById('detailBox');
+const detailContent = document.getElementById('detailContent');
+const mediaGallery = document.getElementById('mediaGallery');
+const shareLink = document.getElementById('shareLink');
+const certUpload = document.getElementById('certUpload');
+const certPreview = document.getElementById('certPreview');
 
-  if (!owner || !pet || !start) {
-    alert("Please fill required fields.");
-    return;
-  }
+let bookings = loadAll();
 
-  if (!cert) {
-    alert("Training confirmation required.");
-    return;
-  }
+/* ---------- cert preview ---------- */
+certUpload.addEventListener('change',()=>{
+  const f = certUpload.files[0];
+  if(!f) { certPreview.style.display='none'; certPreview.src=''; return }
+  const r = new FileReader();
+  r.onload = e=>{ certPreview.src = e.target.result; certPreview.style.display='block' }
+  r.readAsDataURL(f);
+})
 
-  bookings.push({ owner, pet, service, start, notes });
-  save();
-  render();
-}
+/* ---------- render list ---------- */
+function renderList(){
+  bookingList.innerHTML = '';
+  const f = document.getElementById('filterDate').value;
+  const shown = bookings.filter(it=>{
+    if(!f) return true;
+    return (it.fromDate<=f && f<=it.toDate) || it.fromDate===f || it.toDate===f;
+  }).sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt));
 
-function render() {
-  let list = document.getElementById("list");
-  list.innerHTML = "";
-
-  bookings.forEach(b => {
-    let div = document.createElement("div");
-    div.className = "booking";
-    div.innerHTML = `
-      <strong>${b.pet}</strong> - ${b.service}<br>
-      Owner: ${b.owner}<br>
-      Date: ${b.start}<br>
-      Notes: ${b.notes}
+  if(shown.length===0){ bookingList.innerHTML = '<div class="small muted" style="padding:8px">No bookings yet</div>'; return }
+  shown.forEach(it=>{
+    const el = document.createElement('div'); el.className='item';
+    el.innerHTML = `
+      <div>
+        <div style="font-weight:700">${esc(it.petName)} <span class="small muted">— ${esc(it.serviceType)}</span></div>
+        <div class="small muted" style="margin-top:6px">${it.fromDate} → ${it.toDate} • ${esc(it.extras||'')}</div>
+        <div class="small" style="margin-top:6px">Host: ${esc(it.hostName||'—')} • ${esc(it.hostExp||'0')} yrs</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+        <img src="${it.certImage||''}" class="media-thumb" style="${it.certImage?'display:block':'display:none'}"/>
+        <div style="display:flex;gap:8px">
+          <button class="btn" data-id="${it.id}" onclick="viewBooking('${it.id}')">View</button>
+          <button class="btn alt" style="background:#fee2e2;color:#b91c1c" onclick="deleteBooking('${it.id}')">Delete</button>
+        </div>
+      </div>
     `;
-    list.appendChild(div);
+    bookingList.appendChild(el);
   });
 }
 
-render();
-</script>
+/* ---------- add booking ---------- */
+document.getElementById('saveBtn').onclick = async ()=>{
+  const ownerName = document.getElementById('ownerName').value.trim();
+  const contact = document.getElementById('contact').value.trim();
+  const petName = document.getElementById('petName').value.trim();
+  const serviceType = document.getElementById('serviceType').value;
+  const fromDate = document.getElementById('fromDate').value;
+  const toDate = document.getElementById('toDate').value;
+  const extras = document.getElementById('extras').value;
+  const hostName = document.getElementById('hostName').value.trim();
+  const hostExp = document.getElementById('hostExp').value.trim();
+  const notes = document.getElementById('notes').value.trim();
 
+  if(!ownerName||!contact||!petName||!fromDate){ alert('Please fill required fields: owner, contact, pet, start date'); return }
+
+  // cert must be uploaded
+  if(!certUpload.files[0] && !confirm('No certificate uploaded — continue?')) return;
+
+  // read cert as base64 (if present)
+  let certImage = '';
+  if(certUpload.files[0]){
+    certImage = await readFileAsDataURL(certUpload.files[0]);
+  }
+
+  const booking = { id: id(), ownerName, contact, petName, serviceType, fromDate, toDate: toDate||fromDate, extras, hostName, hostExp, notes, certImage, media: [], createdAt: new Date().toISOString() };
+  bookings.push(booking);
+  saveAll(bookings);
+  renderList();
+  clearForm();
+  alert('Booking saved (stored locally).');
+}
+
+/* ---------- helpers ---------- */
+function readFileAsDataURL(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsDataURL(file) })}
+
+function clearForm(){
+  ['ownerName','contact','petName','fromDate','toDate','extras','hostName','hostExp','notes'].forEach(id=>document.getElementById(id).value='');
+  certUpload.value=''; certPreview.style.display='none'; certPreview.src='';
+}
+
+/* ---------- view / detail / media ---------- */
+window.viewBooking = function(id){
+  const b = bookings.find(x=>x.id===id);
+  if(!b) return;
+  detailBox.style.display='block';
+  detailContent.innerHTML = `
+    <div style="font-weight:700">${esc(b.petName)} <span class="small muted">— ${esc(b.serviceType)}</span></div>
+    <div class="small" style="margin-top:6px">Owner: ${esc(b.ownerName)} • ${esc(b.contact)}</div>
+    <div class="small" style="margin-top:6px">${esc(b.fromDate)} → ${esc(b.toDate)}</div>
+    <div class="small" style="margin-top:6px">Host: ${esc(b.hostName||'—')} • ${esc(b.hostExp||'0')} yrs</div>
+    <div class="small muted" style="margin-top:6px">Notes: ${esc(b.notes||'—')}</div>
+  `;
+  // show gallery
+  renderGallery(b);
+  // prepare share link
+  const url = new URL(location.href);
+  url.searchParams.set('viewBooking', b.id);
+  shareLink.value = url.toString();
+}
+
+/* ---------- upload media to booking ---------- */
+document.getElementById('uploadMedia').addEventListener('change', async (ev)=>{
+  const files = [...ev.target.files];
+  if(files.length===0) return;
+  const viewId = new URLSearchParams(location.search).get('viewBooking') || (bookings.length?bookings[0].id:null);
+  // if no booking selected, choose most recent
+  const selectedId = document.getElementById('shareLink').value ? new URL(document.getElementById('shareLink').value).searchParams.get('viewBooking') : (bookings.length?bookings[0].id:null);
+  const targetId = selectedId || (bookings.length?bookings[0].id:null);
+  if(!targetId){ alert('Select a booking first'); return }
+  const b = bookings.find(x=>x.id===targetId);
+  for(const f of files){
+    const d = await readFileAsDataURL(f);
+    b.media.push({id:id(),type:f.type,data:d,ts:new Date().toISOString()});
+  }
+  saveAll(bookings);
+  renderGallery(b);
+  renderList();
+  ev.target.value='';
+});
+
+/* ---------- render gallery ---------- */
+function renderGallery(b){
+  mediaGallery.innerHTML = '';
+  if(!b.media || b.media.length===0){ mediaGallery.innerHTML='<div class="small muted">No media uploaded yet</div>'; return }
+  b.media.slice().reverse().forEach(m=>{
+    const el = document.createElement('img'); el.src = m.data;
+    el.title = new Date(m.ts).toLocaleString();
+    el.onclick = ()=> window.open(m.data,'_blank');
+    mediaGallery.appendChild(el);
+  });
+}
+
+/* ---------- delete booking ---------- */
+function deleteBooking(id){
+  if(!confirm('Delete booking?')) return;
+  bookings = bookings.filter(x=>x.id!==id);
+  saveAll(bookings);
+  renderList();
+  detailBox.style.display='none';
+}
+
+/* ---------- CSV export ---------- */
+document.getElementById('exportCsv').onclick = ()=>{
+  if(bookings.length===0){ alert('No bookings'); return }
+  const header = ['id','ownerName','contact','petName','serviceType','fromDate','toDate','extras','hostName','hostExp','notes','createdAt'];
+  const rows = bookings.map(b=> header.map(h=> `"${(b[h]||'').toString().replace(/"/g,'""')}"`).join(','));
+  const csv = [header.join(',')].concat(rows).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'petcare_bookings.csv'; a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ---------- copy link ---------- */
+document.getElementById('copyLink').onclick = ()=>{
+  const v = shareLink.value;
+  if(!v){ alert('No booking selected'); return }
+  navigator.clipboard?.writeText(v).then(()=>alert('Share link copied')).catch(()=>prompt('Copy manually:',v));
+}
+
+/* ---------- filter ---------- */
+document.getElementById('filterDate').addEventListener('change', ()=> renderList());
+
+/* ---------- handle query param on load ---------- */
+function handleQueryParam(){
+  const params = new URLSearchParams(location.search);
+  const viewId = params.get('viewBooking');
+  if(viewId){
+    // if booking exists locally, show it
+    const one = bookings.find(x=>x.id===viewId);
+    if(one){ viewBooking(viewId); document.querySelector('#detailBox')?.scrollIntoView({behavior:'smooth'}); }
+    else {
+      detailBox.style.display='block';
+      detailContent.innerHTML = `<div class="small muted">Booking ID ${viewId} not found locally on this device.</div>`;
+      shareLink.value = location.href;
+    }
+  }
+}
+
+/* ---------- init ---------- */
+renderList();
+handleQueryParam();
+
+// expose for debugging
+window._petcare = {bookings,saveAll,loadAll,renderList};
+</script>
 </body>
 </html>

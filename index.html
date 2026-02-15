@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PetCare — Demo</title>
+<title>PetCare — Demo (Owner & Host separated)</title>
 <style>
   :root{
     --bg:#f5f8fb; --card:#ffffff; --muted:#6b7280; --accent:#06b6d4; --accent-dark:#0ea5a1;
@@ -43,7 +43,10 @@
   /* detail modal like panel */
   .detail{background:linear-gradient(180deg,#ffffff,#fbfeff);padding:12px;border-radius:10px;border:1px solid #eef6f8}
   .gallery{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .gallery img{height:90px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8}
+  .gallery img{height:90px;border-radius:8px;object-fit:cover;border:1px solid #eef6f8;cursor:pointer}
+  .field-row{display:flex;gap:8px}
+  .field-row > div{flex:1}
+  .muted-note{font-size:12px;color:#9aa4b2;margin-top:6px}
 </style>
 </head>
 <body>
@@ -52,7 +55,7 @@
       <div class="logo">PC</div>
       <div>
         <h1>PetCare — Safety-first Pet Services (Demo)</h1>
-        <div class="sub">day care • walking • boarding • in-home vet — hosts must confirm training & upload certificate</div>
+        <div class="sub">Day care • Walking • Boarding • In-home vet — Owner and Host are separate</div>
       </div>
     </header>
 
@@ -61,12 +64,12 @@
       <div>
         <div class="card">
           <strong>Create Booking</strong>
-          <div class="small" style="margin-top:6px">Fill owner & pet info — host certification required to proceed.</div>
+          <div class="small" style="margin-top:6px">Fill owner & pet info — host certification recommended.</div>
 
           <label>Owner name</label>
           <input id="ownerName" type="text" placeholder="e.g. Li Hua">
 
-          <label>Contact (phone or email)</label>
+          <label>Owner contact (phone or email)</label>
           <input id="contact" type="text" placeholder="e.g. +86 13xxxx or li@example.com">
 
           <label>Pet name</label>
@@ -80,12 +83,12 @@
             <option>In-Home Vet</option>
           </select>
 
-          <div style="display:flex;gap:8px">
-            <div style="flex:1">
+          <div class="field-row">
+            <div>
               <label>Start date</label>
               <input id="fromDate" type="date">
             </div>
-            <div style="flex:1">
+            <div>
               <label>End date</label>
               <input id="toDate" type="date">
             </div>
@@ -99,16 +102,16 @@
             <option>One-on-one care</option>
           </select>
 
-          <label>Host: set or select host profile</label>
+          <label style="margin-top:10px">Host (service provider) info</label>
           <div class="host-card">
             <div style="flex:1">
               <input id="hostName" type="text" placeholder="Host name (e.g. Anna)">
-              <div class="small" style="margin-top:6px">Experience years</div>
+              <div class="small muted-note">Experience years</div>
               <input id="hostExp" type="text" placeholder="e.g. 4">
             </div>
             <div style="min-width:120px;text-align:center">
               <div class="small">Certificate</div>
-              <img id="certPreview" class="media-thumb" src="" alt="" style="display:none"/>
+              <img id="certPreview" class="media-thumb" src="" alt="" style="display:none;margin-top:6px"/>
               <input id="certUpload" type="file" accept="image/*" style="margin-top:8px"/>
             </div>
           </div>
@@ -158,7 +161,7 @@
         </div>
 
         <div style="margin-top:14px" class="muted small">
-          This demo uses browser localStorage and base64 images for media (for assignment demonstration). For real deployment, use Firebase / Cloudinary for storage and authentication.
+          This demo uses browser localStorage and base64 images for media (for assignment demonstration). For production, use Firebase / Cloudinary for storage and auth.
         </div>
       </div>
     </div>
@@ -173,7 +176,7 @@
 
 <script>
 /* ---------- storage helpers ---------- */
-const KEY = "petcare_demo_v2";
+const KEY = "petcare_demo_v3";
 function loadAll(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
 function saveAll(a){localStorage.setItem(KEY,JSON.stringify(a))}
 
@@ -218,6 +221,7 @@ function renderList(){
       <div>
         <div style="font-weight:700">${esc(it.petName)} <span class="small muted">— ${esc(it.serviceType)}</span></div>
         <div class="small muted" style="margin-top:6px">${it.fromDate} → ${it.toDate} • ${esc(it.extras||'')}</div>
+        <div class="small" style="margin-top:6px">Owner: ${esc(it.ownerName)} • ${esc(it.contact)}</div>
         <div class="small" style="margin-top:6px">Host: ${esc(it.hostName||'—')} • ${esc(it.hostExp||'0')} yrs</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
@@ -247,16 +251,28 @@ document.getElementById('saveBtn').onclick = async ()=>{
 
   if(!ownerName||!contact||!petName||!fromDate){ alert('Please fill required fields: owner, contact, pet, start date'); return }
 
-  // cert must be uploaded
-  if(!certUpload.files[0] && !confirm('No certificate uploaded — continue?')) return;
-
   // read cert as base64 (if present)
   let certImage = '';
   if(certUpload.files[0]){
     certImage = await readFileAsDataURL(certUpload.files[0]);
   }
 
-  const booking = { id: id(), ownerName, contact, petName, serviceType, fromDate, toDate: toDate||fromDate, extras, hostName, hostExp, notes, certImage, media: [], createdAt: new Date().toISOString() };
+  const booking = {
+    id: id(),
+    ownerName,
+    contact,
+    petName,
+    serviceType,
+    fromDate,
+    toDate: toDate||fromDate,
+    extras,
+    hostName,
+    hostExp,
+    notes,
+    certImage,
+    media: [],
+    createdAt: new Date().toISOString()
+  };
   bookings.push(booking);
   saveAll(bookings);
   renderList();
@@ -284,9 +300,7 @@ window.viewBooking = function(id){
     <div class="small" style="margin-top:6px">Host: ${esc(b.hostName||'—')} • ${esc(b.hostExp||'0')} yrs</div>
     <div class="small muted" style="margin-top:6px">Notes: ${esc(b.notes||'—')}</div>
   `;
-  // show gallery
   renderGallery(b);
-  // prepare share link
   const url = new URL(location.href);
   url.searchParams.set('viewBooking', b.id);
   shareLink.value = url.toString();
@@ -296,12 +310,18 @@ window.viewBooking = function(id){
 document.getElementById('uploadMedia').addEventListener('change', async (ev)=>{
   const files = [...ev.target.files];
   if(files.length===0) return;
-  const viewId = new URLSearchParams(location.search).get('viewBooking') || (bookings.length?bookings[0].id:null);
-  // if no booking selected, choose most recent
-  const selectedId = document.getElementById('shareLink').value ? new URL(document.getElementById('shareLink').value).searchParams.get('viewBooking') : (bookings.length?bookings[0].id:null);
-  const targetId = selectedId || (bookings.length?bookings[0].id:null);
-  if(!targetId){ alert('Select a booking first'); return }
+  // determine selected booking id from shareLink or from most recent
+  let targetId = new URLSearchParams(location.search).get('viewBooking') || (bookings.length?bookings[0].id:null);
+  if(shareLink.value){
+    try{
+      const u = new URL(shareLink.value);
+      const p = u.searchParams.get('viewBooking');
+      if(p) targetId = p;
+    }catch(e){}
+  }
+  if(!targetId){ alert('Select a booking to upload media'); return }
   const b = bookings.find(x=>x.id===targetId);
+  if(!b){ alert('Booking not found'); return }
   for(const f of files){
     const d = await readFileAsDataURL(f);
     b.media.push({id:id(),type:f.type,data:d,ts:new Date().toISOString()});
@@ -359,7 +379,6 @@ function handleQueryParam(){
   const params = new URLSearchParams(location.search);
   const viewId = params.get('viewBooking');
   if(viewId){
-    // if booking exists locally, show it
     const one = bookings.find(x=>x.id===viewId);
     if(one){ viewBooking(viewId); document.querySelector('#detailBox')?.scrollIntoView({behavior:'smooth'}); }
     else {
